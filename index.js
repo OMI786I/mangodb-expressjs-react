@@ -32,10 +32,16 @@ async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
+    // Connect to the "usersDB" database and access its "haiku" collection
+    const database = client.db("usersDB");
+    const haiku = database.collection("users");
 
     app.post("/users", async (req, res) => {
       const user = req.body;
       console.log("new user", user);
+      // Insert the defined document into the "haiku" collection
+      const result = await haiku.insertOne(user);
+      res.send(result);
     });
 
     // Send a ping to confirm a successful connection
@@ -44,8 +50,6 @@ async function run() {
       "Pinged your deployment. You successfully connected to MongoDB!"
     );
   } finally {
-    // Ensures that the client will close when you finish/error
-    await client.close();
   }
 }
 run().catch(console.dir);
