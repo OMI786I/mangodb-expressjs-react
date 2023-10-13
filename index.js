@@ -62,8 +62,19 @@ async function run() {
 
     app.put("/users/:id", async (req, res) => {
       const id = req.params.id;
-      const updatedUser = req.body;
-      console.log(updatedUser);
+      const user = req.body;
+      console.log(user);
+      const filter = { _id: new ObjectId(id) };
+      const option = { upsert: true };
+      const updatedUser = {
+        $set: {
+          name: user.name,
+          email: user.email,
+        },
+      };
+
+      const result = await haiku.updateOne(filter, updatedUser, option);
+      res.send(result);
     });
 
     //CRUD -> D (Delete)
