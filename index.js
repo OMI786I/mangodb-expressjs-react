@@ -60,6 +60,12 @@ async function run() {
       res.send(result);
     });
 
+    app.put("/users/:id", async (req, res) => {
+      const id = req.params.id;
+      const updatedUser = req.body;
+      console.log(updatedUser);
+    });
+
     //CRUD -> D (Delete)
     app.delete("/users/:id", async (req, res) => {
       const id = req.params.id;
