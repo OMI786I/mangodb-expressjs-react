@@ -36,6 +36,14 @@ async function run() {
     const database = client.db("usersDB");
     const haiku = database.collection("users");
 
+    //CRUD -> R (Read)
+    app.get("/users", async (req, res) => {
+      const cursor = haiku.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+
+    //CRUD -> C (create)
     app.post("/users", async (req, res) => {
       const user = req.body;
       console.log("new user", user);
