@@ -43,6 +43,14 @@ async function run() {
       res.send(result);
     });
 
+    //CRUD -> U (Update)
+    app.get("/users/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const user = await haiku.findOne(query);
+      res.send(user);
+    });
+
     //CRUD -> C (create)
     app.post("/users", async (req, res) => {
       const user = req.body;
