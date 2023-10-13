@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const port = process.env.PORT || 5000;
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 
 app.use(cors()); //The cors() middleware helps you manage CORS restrictions and allow or disallow cross-origin requests.
 //app.use(cors()) allows  your server to respond to requests from different origins, making it possible for your frontend to communicate with the server.
@@ -52,6 +52,14 @@ async function run() {
       res.send(result);
     });
 
+    //CRUD -> D (Delete)
+    app.delete("/users/:id", async (req, res) => {
+      const id = req.params.id;
+      console.log("please delete from data base", id);
+      const query = { _id: new ObjectId(id) };
+      const result = await haiku.deleteOne(query);
+      res.send(result);
+    });
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log(
